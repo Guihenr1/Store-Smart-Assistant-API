@@ -1,13 +1,14 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using StoreSmart.Api;
 using StoreSmart.Api.Endpoints;
-using StoreSmart.Application.Interfaces;
-using StoreSmart.Application.Services;
+using StoreSmart.Application;
 using StoreSmart.Application.Settings;
 using StoreSmart.Infrastructure;
+using StoreSmart.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Configuration
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -46,8 +48,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Add services
-builder.Services.AddScoped<IStoreAgentService, StoreAgentService>();
 
 // Register Semantic Kernel + Plugins (in extension method)
 // builder.Services.AddSemanticKernelServices(builder.Configuration);
@@ -68,7 +68,17 @@ if (app.Environment.IsDevelopment() ||
     });
 }
 
+if (app.Environment.IsDevelopment() || 
+    !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AUTO_MIGRATE")))
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<SmartStoreDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+}
+
 app.RegisterChatEndpoints();
+app.RegisterAuthEndpoints();
 
 app.MapHealthChecks("/health");
 app.MapGet("/health", () => Results.Ok(new { status = "Healthy", time = DateTime.UtcNow }));
