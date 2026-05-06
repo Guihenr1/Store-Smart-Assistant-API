@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StoreSmart.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using StoreSmart.Infrastructure.Persistence;
 namespace StoreSmart.Infrastructure.Migrations
 {
     [DbContext(typeof(SmartStoreDbContext))]
-    partial class SmartStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260506071610_create_products")]
+    partial class create_products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

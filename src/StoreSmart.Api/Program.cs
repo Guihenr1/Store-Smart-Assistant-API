@@ -79,6 +79,7 @@ if (app.Environment.IsDevelopment() ||
 
 app.RegisterChatEndpoints();
 app.RegisterAuthEndpoints();
+app.RegisterProductEndpoints();
 
 app.MapHealthChecks("/health");
 app.MapGet("/health", () => Results.Ok(new { status = "Healthy", time = DateTime.UtcNow }));
