@@ -74,4 +74,41 @@ public class ProductRepository : IProductRepository
     {
         return await _context.Products.AnyAsync(p => p.Id == id, ct);
     }
+    
+    public async Task<(List<Product> Products, int TotalCount)> GetPaginatedAsync(
+        int pageNumber,
+        int pageSize,
+        bool onlyActive = true,
+        string? category = null,
+        string? searchTerm = null,
+        CancellationToken ct = default)
+    {
+        var query = _context.Products.AsQueryable();
+
+        if (onlyActive)
+            query = query.Where(p => p.IsActive);
+
+        if (!string.IsNullOrWhiteSpace(category))
+            query = query.Where(p => p.Category.Name == category);
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.ToLower();
+            query = query.Where(p =>
+                p.Name.ToLower().Contains(term) ||
+                p.Description.ToLower().Contains(term) ||
+                p.Brand.ToLower().Contains(term) ||
+                p.SKU.ToLower().Contains(term));
+        }
+
+        var totalCount = await query.CountAsync(ct);
+
+        var products = await query
+            .OrderBy(p => p.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+
+        return (products, totalCount);
+    }
 }

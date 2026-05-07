@@ -15,4 +15,12 @@ public interface IProductRepository
     
     Task<bool> SkuExistsAsync(string sku, CancellationToken ct = default);
     Task<bool> ExistsAsync(Guid id, CancellationToken ct = default);
+    
+    Task<(List<Product> Products, int TotalCount)> GetPaginatedAsync(
+        int pageNumber,
+        int pageSize,
+        bool onlyActive = true,
+        string? category = null,
+        string? searchTerm = null,
+        CancellationToken ct = default);
 }

@@ -62,6 +62,38 @@ public class Product
         };
     }
 
+    public void Update(
+        string? name = null,
+        string? description = null,
+        string? brand = null,
+        Category? category = null,
+        Money? price = null,
+        int? stockQuantity = null,
+        string? imageUrl = null,
+        string? specifications = null,
+        string? features = null,
+        string? technicalDetails = null,
+        List<string>? tags = null)
+    {
+        if (name != null) Name = name.Trim();
+        if (description != null) Description = description.Trim();
+        if (brand != null) Brand = brand.Trim();
+        if (category != null) Category = category;
+        if (price != null) Price = price;
+        if (stockQuantity.HasValue) StockQuantity = stockQuantity.Value;
+        if (imageUrl != null) ImageUrl = imageUrl;
+        if (specifications != null) Specifications = specifications;
+        if (features != null) Features = features;
+        if (technicalDetails != null) TechnicalDetails = technicalDetails;
+
+        if (tags != null)
+        {
+            Tags = tags.Select(t => t.Trim().ToLower()).Distinct().ToList();
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void UpdateStock(int newQuantity)
     {
         StockQuantity = newQuantity;

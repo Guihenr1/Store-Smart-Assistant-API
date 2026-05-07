@@ -1,5 +1,6 @@
 using Ardalis.Result;
 using MediatR;
+using StoreSmart.Application.Features.Products.Commands.Mappings;
 using StoreSmart.Application.Features.Products.DTOs;
 using StoreSmart.Application.Interfaces.Repositories;
 using StoreSmart.Domain.Entities;
@@ -45,23 +46,6 @@ public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductC
 
         await _productRepository.AddAsync(product, cancellationToken);
 
-        var response = new ProductResponse(
-            Id: product.Id,
-            SKU: product.SKU,
-            Name: product.Name,
-            Description: product.Description,
-            Brand: product.Brand,
-            Category: product.Category.Name,
-            Price: product.Price.Amount,
-            Currency: product.Price.Currency,
-            StockQuantity: product.StockQuantity,
-            IsActive: product.IsActive,
-            ImageUrl: product.ImageUrl,
-            Tags: product.Tags,
-            Specifications: product.Specifications,
-            Features: product.Features
-        );
-
-        return Result.Success(response);
+        return Result.Success(product.ToResponse());
     }
 }
