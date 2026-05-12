@@ -1,0 +1,5 @@
+resource_group_name     = "rg-storesmart-dev"
+location                = "SwedenCentral"
+project_name            = "storesmart"
+app_service_sku         = "B2"
+postgres_admin_password = "St0r3Sm4rt"

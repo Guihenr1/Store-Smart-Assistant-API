@@ -482,3 +482,15 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# === Terraform ===
+/terraform/.terraform/
+/terraform/*.tfstate
+/terraform/*.tfstate.*
+/terraform/*.tfvars
+/terraform/crash.log
+/terraform/*.log
+
+# Ignore specific sensitive files
+/terraform/terraform.tfvars
+/terraform/secrets.tfvars
