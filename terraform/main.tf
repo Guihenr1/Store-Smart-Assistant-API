@@ -28,6 +28,9 @@ module "app_service" {
   project_name        = var.project_name
   app_service_sku     = var.app_service_sku
 
+  openai_endpoint     = var.openai_endpoint
+  openai_key          = var.openai_key
+
   depends_on = [module.postgres]
 }
 

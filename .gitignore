@@ -494,3 +494,4 @@ $RECYCLE.BIN/
 # Ignore specific sensitive files
 /terraform/terraform.tfvars
 /terraform/secrets.tfvars
+/terraform/terraform.tfvars.dev

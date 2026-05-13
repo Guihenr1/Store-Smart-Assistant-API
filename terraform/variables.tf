@@ -18,11 +18,23 @@ variable "resource_group_name" {
 variable "app_service_sku" {
   description = "App Service Plan SKU"
   type        = string
-  default     = "B1"   # B1 = Basic, P1v2 = better performance
+  default     = "B2"
 }
 
 variable "postgres_admin_password" {
   description = "PostgreSQL admin password"
+  type        = string
+  sensitive   = true
+}
+
+# OpenAI Variables
+variable "openai_endpoint" {
+  description = "Azure OpenAI Endpoint"
+  type        = string
+}
+
+variable "openai_key" {
+  description = "Azure OpenAI API Key"
   type        = string
   sensitive   = true
 }
