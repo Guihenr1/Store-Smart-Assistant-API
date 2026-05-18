@@ -8,6 +8,7 @@ using StoreSmart.Api.Endpoints;
 using StoreSmart.Application;
 using StoreSmart.Application.Settings;
 using StoreSmart.Infrastructure;
+using StoreSmart.Infrastructure.Data;
 using StoreSmart.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,7 +75,11 @@ if (app.Environment.IsDevelopment() ||
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<SmartStoreDbContext>();
 
+    Console.WriteLine("🔄 Applying database migrations...");
     await dbContext.Database.MigrateAsync();
+
+    Console.WriteLine("🌱 Checking database seed...");
+    await ProductSeeder.SeedAsync(dbContext);
 }
 
 app.RegisterChatEndpoints();
