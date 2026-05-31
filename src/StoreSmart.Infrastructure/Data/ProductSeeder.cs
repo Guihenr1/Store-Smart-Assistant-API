@@ -67,16 +67,52 @@ public static class ProductSeeder
             ),
 
             Product.Create(
-                sku: "TSHIRT001",
-                name: "Organic Cotton T-Shirt",
-                description: "Premium sustainable organic cotton t-shirt. Soft, comfortable and eco-friendly.",
+                sku: "TSHIRT-COTTON-BLK",
+                name: "Essential Organic Cotton T-Shirt",
+                description: "Premium organic cotton t-shirt. Ultra-soft, breathable and eco-friendly.",
                 brand: "Everlane",
-                category: Category.Create("Clothing"),
+                category: Category.Create("T-Shirts"),
                 price: Money.Create(29.99m),
-                stockQuantity: 120,
-                specifications: "100% Organic Cotton, Regular Fit",
-                features: "Pre-shrunk, Biodegradable packaging"
-            )
+                stockQuantity: 150,
+                specifications: "100% Organic Cotton, Regular Fit, Pre-shrunk",
+                features: "Sustainable, Super soft, Durable stitching"
+            ),
+
+            Product.Create(
+                sku: "TSHIRT-POLY-BLK",
+                name: "Performance Polyester T-Shirt",
+                description: "Moisture-wicking polyester t-shirt perfect for sports and active use.",
+                brand: "Nike",
+                category: Category.Create("T-Shirts"),
+                price: Money.Create(34.99m),
+                stockQuantity: 80,
+                specifications: "100% Polyester, Athletic Fit, Quick-dry fabric",
+                features: "Breathable, Odor resistant, UV protection"
+            ),
+
+            Product.Create(
+                sku: "TSHIRT-WOOL-GRY",
+                name: "Merino Wool Blend T-Shirt",
+                description: "Luxurious merino wool t-shirt that regulates temperature naturally.",
+                brand: "Icebreaker",
+                category: Category.Create("T-Shirts"),
+                price: Money.Create(79.99m),
+                stockQuantity: 35,
+                specifications: "60% Merino Wool, 40% Polyester, Slim Fit",
+                features: "Natural odor resistance, Temperature regulating, Ultra comfortable"
+            ),
+
+            Product.Create(
+                sku: "TSHIRT-BAMBOO-GRN",
+                name: "Bamboo Fabric T-Shirt",
+                description: "Ultra-soft bamboo viscose t-shirt with excellent moisture management.",
+                brand: "Bamboo Earth",
+                category: Category.Create("T-Shirts"),
+                price: Money.Create(39.99m),
+                stockQuantity: 65,
+                specifications: "95% Bamboo Viscose, 5% Spandex, Regular Fit",
+                features: "Antibacterial, Hypoallergenic, Very soft"
+            ),
         };
 
         await context.Products.AddRangeAsync(products);

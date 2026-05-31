@@ -14,8 +14,7 @@ public static class ChatEndpoints
             {
                 var response = await agentService.ProcessUserMessageAsync(
                     request.SessionId, 
-                    request.UserMessage,
-                    request.UserId);
+                    request.UserMessage);
 
                 return Results.Ok(response);
             })

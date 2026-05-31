@@ -16,6 +16,8 @@ public interface IProductRepository
     Task<bool> SkuExistsAsync(string sku, CancellationToken ct = default);
     Task<bool> ExistsAsync(Guid id, CancellationToken ct = default);
     
+    Task<List<Product>> SearchSemanticAsync(string query, int limit = 6, CancellationToken ct = default);
+    
     Task<(List<Product> Products, int TotalCount)> GetPaginatedAsync(
         int pageNumber,
         int pageSize,

@@ -10,6 +10,7 @@ using StoreSmart.Application.Settings;
 using StoreSmart.Infrastructure;
 using StoreSmart.Infrastructure.Data;
 using StoreSmart.Infrastructure.Persistence;
+using StoreSmart.Infrastructure.SemanticKernel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 // Register Semantic Kernel + Plugins (in extension method)
-// builder.Services.AddSemanticKernelServices(builder.Configuration);
+builder.Services.AddSemanticKernel(builder.Configuration);
 
 var app = builder.Build();
 

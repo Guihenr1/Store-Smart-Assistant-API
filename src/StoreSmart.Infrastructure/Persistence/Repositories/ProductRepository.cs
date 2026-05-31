@@ -111,4 +111,33 @@ public class ProductRepository : IProductRepository
 
         return (products, totalCount);
     }
+    
+    public async Task<List<Product>> SearchSemanticAsync(
+        string query, 
+        int limit = 6, 
+        CancellationToken ct = default)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return await GetAllAsync(onlyActive: true, ct);
+        }
+
+        var searchTerm = query.ToLower().Trim();
+
+        return await _context.Products
+            .Where(p => p.IsActive)
+            .Where(p =>
+                EF.Functions.ILike(p.Name, $"%{searchTerm}%") ||
+                EF.Functions.ILike(p.Description, $"%{searchTerm}%") ||
+                EF.Functions.ILike(p.Brand, $"%{searchTerm}%") ||
+                EF.Functions.ILike(p.Category.Name, $"%{searchTerm}%") ||
+                (p.Specifications != null && EF.Functions.ILike(p.Specifications, $"%{searchTerm}%")) ||
+                (p.Features != null && EF.Functions.ILike(p.Features, $"%{searchTerm}%")) ||
+                (!string.IsNullOrEmpty(p.SKU) && EF.Functions.ILike(p.SKU, $"%{searchTerm}%"))
+            )
+            .OrderByDescending(p => p.StockQuantity)
+            .ThenBy(p => p.Name)
+            .Take(limit)
+            .ToListAsync(ct);
+    }
 }

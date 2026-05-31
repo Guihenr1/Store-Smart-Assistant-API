@@ -7,6 +7,7 @@ using StoreSmart.Application.Services;
 using StoreSmart.Infrastructure.Auth;
 using StoreSmart.Infrastructure.Persistence;
 using StoreSmart.Infrastructure.Persistence.Repositories;
+using StoreSmart.Infrastructure.SemanticKernel;
 
 namespace StoreSmart.Infrastructure;
 
@@ -23,7 +24,8 @@ public static class DependencyInjection
                     maxRetryDelay: TimeSpan.FromSeconds(10),
                     errorCodesToAdd: null)));
 
-        
+        services.AddMemoryCache();
+        services.AddScoped<IChatHistoryService, ChatHistoryService>();
         services.AddScoped<IStoreAgentService, StoreAgentService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserRepository, UserRepository>();
